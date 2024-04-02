@@ -1,0 +1,27 @@
+@startuml eric
+package "Tic Tac Toe" {
+    [index.html]
+    [index.css]
+    [index.js]
+    [Game Logic]
+    [Data Access Component]
+    [Controller]
+    [Utilities]
+    
+    [index.js] --> [Game Logic] : Gestion du jeu
+    [index.html] --> [index.css] : Stylisation
+    [index.html] --> [index.js] : Intégration de la logique
+    [Game Logic] --> [Data Access Component] : Accès aux données
+    [Controller] --> [Game Logic] : Contrôle du jeu
+    [Controller] --> [Data Access Component] : Contrôle des données
+    [index.js] --> [Utilities] : Utilisation des fonctionnalités
+}
+database "Base de données" {
+    folder "Scores" {
+        [Scores Database]
+    }
+}
+
+[Data Access Component] --> [Scores Database] : Stockage des scores
+@enduml
+
