@@ -7,7 +7,7 @@ body {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Colonnes de taille flexible */
     width: 90%; /* Utilisation d'une largeur relative */
-    max-width: 600px; /* Limitation de la largeur maximale */
+    max-width: 400px; /* Limitation de la largeur maximale */
     margin: auto; /* Centre la grille horizontalement */
     gap: 5px; /* Ajout d'un espacement entre les cases */
 }
@@ -34,4 +34,9 @@ button {
 }
 details{
     color: red;
+}
+p{
+    display: flex;
+    justify-content: center;
+    color: rgb(0, 0, 0);
 }

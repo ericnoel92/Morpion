@@ -1,27 +1,25 @@
 @startuml eric
-package "Tic Tac Toe" {
-    [index.html]
-    [index.css]
-    [index.js]
-    [Game Logic]
-    [Data Access Component]
-    [Controller]
-    [Utilities]
-    
-    [index.js] --> [Game Logic] : Gestion du jeu
-    [index.html] --> [index.css] : Stylisation
-    [index.html] --> [index.js] : Intégration de la logique
-    [Game Logic] --> [Data Access Component] : Accès aux données
-    [Controller] --> [Game Logic] : Contrôle du jeu
-    [Controller] --> [Data Access Component] : Contrôle des données
-    [index.js] --> [Utilities] : Utilisation des fonctionnalités
-}
-database "Base de données" {
-    folder "Scores" {
-        [Scores Database]
-    }
+
+left to right direction
+actor Joueur
+actor Ordinateur
+rectangle "Jeu Tic Tac Toe" as Jeu {
+  Joueur --> (Cliquer sur une case)
+  (Cliquer sur une case) --> (Vérifier la victoire)
+  (Cliquer sur une case) --> (Vérifier l'égalité)
+  (Cliquer sur une case) --> (Choisir la difficulté)
+  (Vérifier la victoire) --> (Afficher le message de victoire)
+  (Vérifier l'égalité) --> (Afficher le message d'égalité)
+  (Afficher le message de victoire) --> (Afficher le score)
+  (Afficher le message d'égalité) --> (Afficher le score)
+  Ordinateur --> (Jouer)
+  (Jouer) --> (Vérifier la victoire)
+  (Jouer) --> (Vérifier l'égalité)
+  (Jouer) --> (Choisir la difficulté)
+  (Vérifier la victoire) --> (Afficher le message de victoire)
+  (Vérifier l'égalité) --> (Afficher le message d'égalité)
+  (Choisir la difficulté) --> (Appliquer la difficulté)
+  (Appliquer la difficulté) --> (Afficher la difficulté)
 }
 
-[Data Access Component] --> [Scores Database] : Stockage des scores
 @enduml
-
