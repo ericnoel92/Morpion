@@ -1,3 +1,6 @@
+<div>
+  <img src="morpion.png">
+</div>
 # Tic Tac Toe
 
 Bienvenue dans ce jeu de Tic Tac Toe simple mais amusant !
