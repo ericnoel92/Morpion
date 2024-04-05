@@ -143,6 +143,11 @@ function recommencer() {
     etatJeu = ["", "", "", "", "", "", "", "", ""];
     statut.textContent = tourJoueur();
     document.querySelectorAll(".case").forEach(cell => cell.textContent = "");
+
+    // Réinitialiser le mode de jeu
+    modeJeu = "";
+    document.getElementById("jouerContreOrdinateur").disabled = false;
+    document.getElementById("jouerContreAmi").disabled = false;
 }
 
 // Cette fonction gère le choix du mode de jeu
