@@ -40,3 +40,15 @@ p{
     justify-content: center;
     color: rgb(0, 0, 0);
 }
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    padding: 10px; /* Ajoutez une marge si nécessaire */
+    background-color: black; /* Couleur de fond pour le footer */
+    width: 20%; /* Le footer occupera la largeur complète de la fenêtre */
+    text-align: left; 
+}
+p{
+    color: red;
+}
