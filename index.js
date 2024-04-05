@@ -27,7 +27,7 @@ const egalite = () => "Egalité";
 const tourJoueur = () => `C'est au tour du joueur ${joueurActif}`;
 
 // On affiche quel joueur commence
-statut.innerHTML = tourJoueur();
+statut.textContent = tourJoueur();
 
 // On met en place les écouteurs d'évènements
 document.querySelectorAll(".case").forEach(cell => cell.addEventListener("click", gestionClicCase));
@@ -37,9 +37,13 @@ document.getElementById("jouerContreAmi").addEventListener("click", choisirModeJ
 document.getElementById("difficulteNormale").addEventListener("click", choisirDifficulte);
 document.getElementById("difficulteDifficile").addEventListener("click", choisirDifficulte);
 
-/**
- * Cette fonction gère le clic sur les cases du jeu
- */
+// Ajout de l'élément audio pour le son de la victoire
+const audioVictoire = document.createElement("audio");
+audioVictoire.setAttribute("id", "audioVictoire");
+audioVictoire.setAttribute("src", "bonus-143026.mp3");
+document.body.appendChild(audioVictoire);
+
+// Cette fonction gère le clic sur les cases du jeu
 function gestionClicCase() {
     const indexCase = parseInt(this.dataset.index);
     
@@ -48,7 +52,10 @@ function gestionClicCase() {
     }
 
     etatJeu[indexCase] = joueurActif;
-    this.innerHTML = joueurActif;
+    this.textContent = joueurActif;
+
+    // Lecture de l'audio à chaque tour
+    audio.play();
 
     verifGagne();
 
@@ -63,29 +70,30 @@ function gestionClicCase() {
     }
 }
 
-/**
- * Cette fonction gère le tour de l'ordinateur
- */
+// Cette fonction gère le tour de l'ordinateur
 function jouerOrdinateur() {
     let indexCase;
     if (difficulte === "difficile") {
         // Implémentez ici la logique pour la difficulté difficile
     } else {
         // Pour la difficulté normale, l'ordinateur peut jouer de manière aléatoire
-        do {
-            indexCase = Math.floor(Math.random() * 9);
-        } while (etatJeu[indexCase] !== "");
+        const casesVides = etatJeu.reduce((acc, valeur, index) => {
+            if (valeur === "") {
+                acc.push(index);
+            }
+            return acc;
+        }, []);
+
+        indexCase = casesVides[Math.floor(Math.random() * casesVides.length)];
     }
 
     etatJeu[indexCase] = "O";
-    document.querySelector(`.case[data-index="${indexCase}"]`).innerHTML = "O";
+    document.querySelector(`.case[data-index="${indexCase}"]`).textContent = "O";
 
     verifGagne();
 }
 
-/**
- * Cette fonction vérifie si le joueur a gagné
- */
+// Cette fonction vérifie si le joueur a gagné
 function verifGagne() {
     let tourGagnant = false;
 
@@ -105,43 +113,39 @@ function verifGagne() {
     }
 
     if (tourGagnant) {
-        statut.innerHTML = gagne();
+        statut.textContent = gagne();
         jeuActif = false;
 
         // Mise à jour du score
         if (joueurActif === "X") {
             scoreX++;
-            document.getElementById("scoreX").innerHTML = `Score X: ${scoreX}`;
+            document.getElementById("scoreX").textContent = `Score X: ${scoreX}`;
         } else {
             scoreO++;
-            document.getElementById("scoreO").innerHTML = `Score O: ${scoreO}`;
+            document.getElementById("scoreO").textContent = `Score O: ${scoreO}`;
         }
+
+        // Jouer le son de victoire
+        audioVictoire.play();
     } else if (etatJeu.includes("") === false) {
-        statut.innerHTML = egalite();
+        statut.textContent = egalite();
         jeuActif = false;
     } else {
         joueurActif = joueurActif === "X" ? "O" : "X";
-        statut.innerHTML = tourJoueur();
+        statut.textContent = tourJoueur();
     }
 }
 
-/**
- * Cette fonction réinitialise le jeu
- */
+// Cette fonction réinitialise le jeu
 function recommencer() {
     joueurActif = "X";
     jeuActif = true;
     etatJeu = ["", "", "", "", "", "", "", "", ""];
-    statut.innerHTML = tourJoueur();
-    document.querySelectorAll(".case").forEach(cell => cell.innerHTML = "");
-    
-    // Recharge automatiquement la page
-    location.reload();
+    statut.textContent = tourJoueur();
+    document.querySelectorAll(".case").forEach(cell => cell.textContent = "");
 }
 
-/**
- * Cette fonction gère le choix du mode de jeu
- */
+// Cette fonction gère le choix du mode de jeu
 function choisirModeJeu(event) {
     modeJeu = event.target.id === "jouerContreOrdinateur" ? "ordinateur" : "ami";
     
@@ -160,9 +164,7 @@ function choisirModeJeu(event) {
     // Vous pouvez également ajouter d'autres actions en fonction du mode de jeu choisi, par exemple initialiser une variable globale pour stocker le mode de jeu.
 }
 
-/**
- * Cette fonction gère le choix de la difficulté
- */
+// Cette fonction gère le choix de la difficulté
 function choisirDifficulte(event) {
     difficulte = event.target.id === "difficulteDifficile" ? "difficile" : "normale";
     
